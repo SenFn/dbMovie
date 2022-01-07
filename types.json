@@ -1,12 +1,14 @@
-[
-    "Phim hoạt hình",
-    "Hành động",
-    "Phiêu lưu",
-    "Viễn tưởng",
-    "Tâm lý - Tình cảm",
-    "Kinh dị",
-    "Gia đình",
-    "Hài hước",
-    "Thư giãn",
-    "Âm nhạc"
-]
+{
+    "type":[
+        "Phim hoạt hình",
+        "Hành động",
+        "Phiêu lưu",
+        "Viễn tưởng",
+        "Tâm lý - Tình cảm",
+        "Kinh dị",
+        "Gia đình",
+        "Hài hước",
+        "Thư giãn",
+        "Âm nhạc"
+    ]
+}
