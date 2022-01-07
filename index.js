@@ -4,8 +4,8 @@ const app = express();
 const { MongoClient } = require('mongodb');
 
 // URL
-const url = 'mongodb://localhost:27017';
-const client = new MongoClient(url);
+const url = 'mongodb+srv://doan:odlW8VRBSvWxbnOT@data.2dbpw.gcp.mongodb.net/myFirstDatabase?retryWrites=true&w=majority';
+const client = new MongoClient(url, { useNewUrlParser: true, useUnifiedTopology: true });
 
 // Database Name
 const dbName = 'DoAn';
