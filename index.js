@@ -1,4 +1,5 @@
 const express = require('express');
+const { json } = require('express/lib/response');
 var app = express();
 
 app.use(express.json());
@@ -32,7 +33,40 @@ async function GetDataByCollection(collectionName){
 }
 
 async function AddDataByCollection(collectionName, jsonData){
+    const db = client.db(dbName);
+    const collection = db.collection(collectionName);
+    collection.insertOne(jsonData, function(err, res) {
+        if (err) throw err;
+        console.log("1 document insert on "+ collectionName);
+        return;
+    });
+}
+
+async function UpdateDataByCollectionUsers(collectionName, jsonData){
+    const db = client.db(dbName);
+    const collection = db.collection(collectionName);
+
+    const findOne = await collection.findOne({email:jsonData.email}).then(user => user);
     
+    if(findOne == undefined){
+        //add user
+        if(jsonData.name == ""){
+            jsonData.name = jsonData.email;
+        }
+        await AddDataByCollection(collectionName, jsonData);
+        return await collection.findOne({email:jsonData.email});
+    }else{
+        //update user
+        if(jsonData.name != "" && findOne.name != findOne.email){
+            collection.updateOne({email:jsonData.email}, {$set:{name:jsonData.name, pass:jsonData.pass}}, async function(err, res) {
+                if (err) throw err;
+                console.log("1 document update on "+ collectionName);
+                return await collection.findOne({email:jsonData.email});
+            });
+        }
+    }
+    
+    return await collection.findOne({email:jsonData.email});
 }
 
 const PORT =  process.env.PORT ||3003;
@@ -59,7 +93,6 @@ app.get("/index", async(req,res) => {
 })
 
 app.post('/import/:typeData',async function(req, res){
-    console.log(req);
     if(req.params.typeData.toLowerCase() == "moviedb"){
         //add data if null id
         //or edit with existing id
@@ -87,8 +120,8 @@ app.post('/import/:typeData',async function(req, res){
     if(req.params.typeData.toLowerCase() == "users"){
         //add new user
         //if existing user change name
-        console.log(req.body);
-        return res.json(req.body); 
+        const dataGet = await UpdateDataByCollectionUsers("users",req.body);
+        return res.json({status:true, message:dataGet.name });         
     }
 
     console.log(req.body.name);      // your JSON
