@@ -87,6 +87,7 @@ app.post('/import/:typeData',async function(req, res){
     if(req.params.typeData.toLowerCase() == "users"){
         //add new user
         //if existing user change name
+        console.log(req.body);
         return res.json({status: true,message: req.body}); 
     }
 
