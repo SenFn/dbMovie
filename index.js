@@ -88,7 +88,7 @@ app.post('/import/:typeData',async function(req, res){
         //add new user
         //if existing user change name
         console.log(req.body);
-        return res.json({status: true,message: req.body}); 
+        return res.json(req.body); 
     }
 
     console.log(req.body.name);      // your JSON
