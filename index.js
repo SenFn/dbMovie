@@ -59,7 +59,7 @@ app.get("/index", async(req,res) => {
 })
 
 app.post('/import/:typeData',async function(req, res){
-
+    console.log(req);
     if(req.params.typeData.toLowerCase() == "moviedb"){
         //add data if null id
         //or edit with existing id
