@@ -128,4 +128,61 @@ app.post('/import/:typeData',async function(req, res){
     res.send(req.body);    // echo the result back
 });
 
+let lenCode = 4;
+const ListRoom = [];
+function roomID(length) {
+    var result           = '';
+    var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+    var charactersLength = characters.length;
+    for ( var i = 0; i < length; i++ ) {
+      result += characters.charAt(Math.floor(Math.random() * 
+ charactersLength));
+   }
+   return result;
+}
+
+function checkGood(string) {
+    for(let i=0;i<ListRoom.length;i++){
+        if(ListRoom[i] == string){
+            checkGood(roomID(lenCode))
+        }
+    }
+    ListRoom.push(string);
+    return string;
+}
+
+function checkAlive(string) {
+    for(let i=0;i<ListRoom.length;i++){
+        if(ListRoom[i] == string){
+            return true;
+        }
+    }
+    return false;
+}
+
+
+app.get('/create',async function(req, res){   
+    let roomCreate =checkGood(roomID(lenCode));
+    console.log({create: roomCreate});
+    return res.json({status: true,message: roomCreate});
+});
+
+
+app.get('/join',async function(req, res){
+    let roomGet = req.query.code.toUpperCase();
+    let isValid = checkAlive(roomGet);
+    return res.json({status: isValid});
+});
+
+app.get('/leave',async function(req, res){
+    let roomGet = req.query.code.toUpperCase();
+
+    var index = ListRoom.indexOf(roomGet);
+    if (index !== -1) {
+        ListRoom.splice(index, 1);
+    }
+    console.log({remove: roomGet});
+    return res.json({status: true});
+});
+
 app.listen(PORT, () => console.log(`Started server at ${PORT}!`));
