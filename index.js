@@ -5,9 +5,10 @@ var app = express();
 app.use(express.json());
 
 const { MongoClient } = require('mongodb');
-
+var username = 'doan';//youruseracc mongo
+var pass = 'odlW8VRBSvWxbnOT';//your pass
 // URL
-const url = 'mongodb+srv://doan:odlW8VRBSvWxbnOT@data.2dbpw.gcp.mongodb.net/myFirstDatabase?retryWrites=true&w=majority';
+const url = 'mongodb+srv://'+username+':'+pass+'@data.2dbpw.gcp.mongodb.net/myFirstDatabase?retryWrites=true&w=majority';
 const client = new MongoClient(url, { useNewUrlParser: true, useUnifiedTopology: true });
 
 // Database Name
